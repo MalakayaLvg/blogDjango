@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>articles</title>
+</head>
+<body>
+
+<h3>Les articles</h3>
+
+{% if articles %}
+    <ul>
+        {% for article in articles %}
+            <li>
+                <h6>{{ article.content }}</h6>
+                <h6>{{ article.numbers }}</h6>
+                <a href="{% url 'detail' article.id %}">show</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h2>no articles</h2>
+{% endif %}
+
+
+
+</body>
+</html>
