@@ -1,29 +1,30 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>articles</title>
-</head>
-<body>
 
-<h3>Les articles</h3>
+<table>
 
-{% if articles %}
-    <ul>
-        {% for article in articles %}
-            <li>
-                <h6>{{ article.content }}</h6>
-                <h6>{{ article.numbers }}</h6>
-                <a href="{% url 'detail' article.id %}">show</a>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <h2>no articles</h2>
-{% endif %}
+    <h3>Les articles</h3>
+    <a class="btn btn-success" href="{% url 'article_create' %}">create</a>
+    <tr>
+        <th>Content</th>
+        <th>Number</th>
+        <th>Actions</th>
+    </tr>
+    
+    {% if articles %}
+    {% for article in articles %}
+    <tr>
+            <td><h6>{{ article.content }}</h6></td>
+            <td><h6>{{ article.numbers }}</h6></td>
+            <td>
+                <a class="btn btn-primary" href="{% url 'article_detail' article.id %}">show</a>
+                <a class="btn btn-warning" href="{% url 'article_edit' article.id %}">edit</a>
+                <a class="btn btn-danger" href="{% url 'article_delete' article.id %}">delete</a>
+            </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+        <h2>no articles</h2>
+    {% endif %}
+
+</table>
 
 
-
-</body>
-</html>

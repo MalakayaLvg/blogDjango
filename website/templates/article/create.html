@@ -1,0 +1,8 @@
+Créer un article
+<form method="POST">
+{% csrf_token %}
+    <table>
+        {{ form }}
+    </table>
+<button type="submit">create</button>
+</form>
