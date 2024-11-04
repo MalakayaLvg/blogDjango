@@ -6,11 +6,11 @@ from django.contrib.auth.forms import UserCreationForm
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["content"]
+        fields = ["title","content"]
 
         label = {
+        "title": "title",
         "content" : "Content",
-        "number" : "number",
         }
 
         widgets ={

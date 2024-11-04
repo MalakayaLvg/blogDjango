@@ -1,8 +1,13 @@
-Créer un article
-<form method="POST">
-{% csrf_token %}
-    <table>
+{% extends "website/index.html" %}
+{% block body %}
+<h2 class="text-center my-4">NEW POST</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="d-flex flex-column">
         {{ form }}
-    </table>
-<button type="submit">create</button>
+        <div class="my-3">
+            <button class="btn btn-primary " type="submit">Post</button>
+        </div>
+    </div>
 </form>
+{% endblock %}

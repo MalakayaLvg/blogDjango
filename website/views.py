@@ -23,14 +23,18 @@ def post_show(request, post_id):
     return render(request, "post/detail.html", {"post": post})
 
 def post_create(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('posts')
-    else:
-        form = PostForm()
-    return render(request, 'post/create.html', {'form': form})
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PostForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                form.save()
+                return redirect('posts')
+        else:
+            form = PostForm()
+        return render(request, 'post/create.html', {'form': form})
+    return redirect("login")
 
 
 def post_edit(request, post_id):
@@ -84,7 +88,7 @@ def logout_view(request):
 
 @login_required
 def user_profile(request):
-    user = request.user  # L'utilisateur connecté
+    user = request.user
     return render(request, 'users/profile.html', {'user': user})
 
 

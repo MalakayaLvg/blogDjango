@@ -1,11 +1,11 @@
 {% extends "website/index.html" %}
 {% block body %}
 	<h1 class="mb-4">Mon Blog</h1>
-
+    <h2><a class="btn btn-success p-2" href="{% url "post_create" %}">new post<i class="bi bi-plus-square mx-2"></i></a></h2>
     {% for post in posts %}
     <div class="card mb-4">
         <div class="card-header">
-            <p class="text-muted">par Alice - 4 novembre 2024</p>
+            <p class="text-muted">par {{ post.author.username }} - {{ post.created_at }}</p>
         </div>
         <div class="card-body">
             <p>{{ post.content }}</p>
