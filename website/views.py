@@ -3,54 +3,51 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from website.forms import ArticleForm
-from website.models import Article
+from website.forms import PostForm
+from website.models import Post
 from django.contrib.auth.models import User
 from .forms import SignUpForm
 
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return render(request, "website/home.html")
 
-def test(request):
-    return render(request, "website/index.html")
+def posts(request):
+    all_posts = Post.objects.all()
+    context = {"posts": all_posts}
+    return render(request, "post/index.html", context)
 
-def articles(request):
-    articles = Article.objects.all()
-    context = {"articles": articles}
-    return render(request, "article/index.html", context)
+def post_show(request, post_id):
+    post = get_object_or_404(Post,pk=post_id)
+    return render(request, "post/detail.html", {"post": post})
 
-def article_detail(request, article_id):
-    article = get_object_or_404(Article,pk=article_id)
-    return render(request, "article/detail.html", {"article": article})
-
-def article_create(request):
+def post_create(request):
     if request.method == 'POST':
-        form = ArticleForm(request.POST)
+        form = PostForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('articles')
+            return redirect('posts')
     else:
-        form = ArticleForm()
-    return render(request, 'article/create.html', {'form': form})
+        form = PostForm()
+    return render(request, 'post/create.html', {'form': form})
 
 
-def article_edit(request, article_id):
-    article = get_object_or_404(Article, pk=article_id)
+def post_edit(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
     if request.method == 'POST':
-        form = ArticleForm(request.POST, instance=article)
+        form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('articles')
+            return redirect('posts')
     else:
-        form = ArticleForm(instance=article)
-    return render(request, 'article/edit.html', {'form': form})
+        form = PostForm(instance=post)
+    return render(request, 'post/edit.html', {'form': form})
 
-def article_delete(request, article_id):
-    article = get_object_or_404(Article, pk=article_id)
-    article.delete()
-    return redirect('articles')
+def post_delete(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    post.delete()
+    return redirect('posts')
 
 def signup_view(request):
     if request.method == 'POST':
@@ -61,7 +58,7 @@ def signup_view(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('articles')
+            return redirect('posts')
     else:
         form = SignUpForm()
     return render(request,"users/signup.html", {"form": form})
@@ -75,14 +72,19 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('articles')
+                return redirect('posts')
     else:
         form = AuthenticationForm()
-    return render(request, "users/login.html" , {"form": form})
+    return render(request, "users/templates/registration/login.html", {"form": form})
 
 @login_required
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def user_profile(request):
+    user = request.user  # L'utilisateur connecté
+    return render(request, 'users/profile.html', {'user': user})
 
 

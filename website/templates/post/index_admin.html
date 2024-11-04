@@ -1,0 +1,32 @@
+{% extends "website/index.html" %}
+{% block body %}
+
+<table>
+
+    <h3>Les articles</h3>
+    <a class="btn btn-success" href="{% url 'post_create' %}">create</a>
+    <tr>
+        <th>Content</th>
+        <th>Actions</th>
+    </tr>
+    
+    {% if posts %}
+    {% for post in posts %}
+    <tr>
+            <td><h6>{{ post.content }}</h6></td>
+            <td>
+                <a class="btn btn-primary" href="{% url 'post_show' post.id %}">show</a>
+                <a class="btn btn-warning" href="{% url 'post_edit' post.id %}">edit</a>
+                <a class="btn btn-danger" href="{% url 'post_delete' post.id %}">delete</a>
+            </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+        <h2>no posts</h2>
+    {% endif %}
+
+</table>
+
+{% endblock %}
+
+

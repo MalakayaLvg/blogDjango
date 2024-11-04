@@ -1,12 +1,12 @@
-from .models import Article
+from .models import Post
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-class ArticleForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
     class Meta:
-        model = Article
-        fields = '__all__'
+        model = Post
+        fields = ["content"]
 
         label = {
         "content" : "Content",
@@ -23,3 +23,4 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username','password1',"password2")
+
