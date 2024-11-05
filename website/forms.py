@@ -1,4 +1,4 @@
-from .models import Post
+from .models import Post, Comment
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -14,8 +14,8 @@ class PostForm(forms.ModelForm):
         }
 
         widgets ={
-        "content" : forms.TextInput(attrs={"placeholder":"Buy Groceries"}),
-        "description" : forms.TextInput(attrs={"placeholder":"Visit super market and buy some groceries"}),
+        "title": forms.TextInput(attrs={"placeholder": "post title"}),
+        "content" : forms.TextInput(attrs={"placeholder":"post content"}),
         }
 
 class SignUpForm(UserCreationForm):
@@ -23,4 +23,17 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username','password1',"password2")
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["content"]
+
+        label = {"content":"content"}
+
+        widget = {
+            "content" : forms.TextInput(attrs={"placeholder":"comment content"})
+        }
+
+
 
