@@ -14,6 +14,7 @@ from .forms import SignUpForm
 def index(request):
     return render(request, "website/home.html")
 
+@login_required
 def posts(request):
     all_posts = Post.objects.prefetch_related("comments","likes")
     context = {"posts": all_posts}
